@@ -7,3 +7,7 @@ requirements:
 - Git repository
 
 ![image](https://user-images.githubusercontent.com/61291904/138046528-0145df05-f193-4c42-94cc-e06b6c6a5578.png)
+
+## Homework 2
+requirement:
+- RGB LED controller with potentiometer
