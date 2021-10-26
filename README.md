@@ -1,3 +1,4 @@
+<pre>
 # IntroductionToRobotics
 Introduction to Robotics laboratory homeworks, taken in the 3rd year at the Faculty of Mathematics and Computer Science, University of Bucharest. Each homework includes requirements, implementation details, code and image files.
 
@@ -20,3 +21,4 @@ requirements:
 3. Video proof of functionality: 
 Video: https://gfycat.com/nervousgraciousakitainu
 
+</pre>
