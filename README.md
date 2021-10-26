@@ -11,4 +11,6 @@ requirements:
 ## Homework 2
 requirement:
 - RGB LED controller with potentiometer
-https://gfycat.com/nervousgraciousakitainu
+
+![RGB](https://user-images.githubusercontent.com/61291904/138946361-9f926bf9-748b-4615-a74e-7a29adce973b.jpeg)
+Video: https://gfycat.com/nervousgraciousakitainu
