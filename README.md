@@ -12,7 +12,7 @@ requirements:
 
 ## Homework 1
 1. Requirement:
-- 2 pairs of traffic lights working together (timer synchronization), one for cars (green, yellow, red) and one for people (green, red) with buzzer (hardware and software)
+- RGB LED controlled with 3 potentiometers (hardware and software)
 2. Picture of the build:
 ![RGB](https://user-images.githubusercontent.com/61291904/138946361-9f926bf9-748b-4615-a74e-7a29adce973b.jpeg)
 3. Video proof of functionality: 
@@ -20,7 +20,7 @@ Video: https://gfycat.com/nervousgraciousakitainu
 
 ## Homework 2
 1. Requirement:
-- RGB LED controlled with 3 potentiometers (hardware and software)
+- 2 pairs of traffic lights working together (timer synchronization), one for cars (green, yellow, red) and one for people (green, red) with buzzer (hardware and software)
 2. Picture of the build:
 ![WhatsApp Image 2021-11-02 at 20 45 02](https://user-images.githubusercontent.com/61291904/139926296-77d6812f-7ed4-43a5-b0f3-4396901573f7.jpeg)
 3. Video proof of functionality: 
