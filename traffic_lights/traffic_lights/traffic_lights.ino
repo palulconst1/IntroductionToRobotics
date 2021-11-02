@@ -44,6 +44,8 @@ bool stateThree = false;
 bool stateFour = false;
 bool stateFive = false;
 
+int turnedOnLedValue = 255;
+
 void setup() {
     pinMode(buttonPin, INPUT_PULLUP);
     
@@ -59,11 +61,11 @@ void setup() {
 }
 
 void loop() {
-
+// stateOne = start, cars: green | people: red
   if(stateOne) {
-    analogWrite(greenCarPin, 255);
+    analogWrite(greenCarPin, turnedOnLedValue);
     greenCarState = HIGH;
-    analogWrite(redPeoplePin, 255);
+    analogWrite(redPeoplePin, turnedOnLedValue);
     redPeopleState = HIGH;
     
     reading = digitalRead(buttonPin);
@@ -85,27 +87,27 @@ void loop() {
     prevReading = reading;
   }
 
-
+// stateTwo = button has been pressed and 10s passed, cars: yellow | people: red
   if(millis() - startChangeStateTimer > changeStateOneDelay && stateTwo) {
     analogWrite(greenCarPin, 0);
     greenCarState = LOW;
-    analogWrite(yellowCarPin, 255);
+    analogWrite(yellowCarPin, turnedOnLedValue);
     yellowCarState = HIGH;
 
     stateTwo = false;
     stateThree = true;
     startChangeStateTimer = millis();
   }
-
+// stateThree = yellow timer for cars finished, cars: red | people: green
     if(millis() - startChangeStateTimer > changeStateTwoDelay && stateThree) {
       analogWrite(yellowCarPin, 0);
       yellowCarState = LOW;
-      analogWrite(redCarPin, 255);
+      analogWrite(redCarPin, turnedOnLedValue);
       redCarState = HIGH;
   
       analogWrite(redPeoplePin, 0);
       redPeopleState = LOW;
-      analogWrite(greenPeoplePin, 255);
+      analogWrite(greenPeoplePin, turnedOnLedValue);
       greenPeopleState = HIGH;
   
       stateThree = false;
@@ -113,7 +115,7 @@ void loop() {
       startChangeStateTimer = millis();
       buzzerTimer = millis();
     }
-
+// stateFour = start the buzzer, cars: red | people: green
     if(millis() - startChangeStateTimer < changeStateThreeDelay && stateFour) {
       Serial.println("bzz");
         if(millis() - buzzerTimer > buzzerDelay) {
@@ -131,7 +133,7 @@ void loop() {
       blinkTimer = millis();
       startChangeStateTimer = millis();
   }
-
+// stateFive = start the blinking, cars: red | people: green
     if(millis() - startChangeStateTimer < changeStateFourDelay && stateFive) {
         if(millis() - blinkTimer > blinkDelay) {
           greenPeopleState = !greenPeopleState;
@@ -142,10 +144,10 @@ void loop() {
           analogWrite(greenPeoplePin, 0);
         } else {
           tone(buzzerPin, buzzerTone, 10);
-          analogWrite(greenPeoplePin, 255);
+          analogWrite(greenPeoplePin, turnedOnLedValue);
         }
    }
-
+// stateFive = end of flow, go back to stage One, cars: green | people: red
     if(millis() - startChangeStateTimer > changeStateFourDelay && stateFive) {
       analogWrite(greenPeoplePin, 0);
       greenPeopleState = LOW;
