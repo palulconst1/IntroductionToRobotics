@@ -30,7 +30,7 @@ Video: https://youtu.be/awLXe3LO1Kg
 1. Requirement:
 - electromagnetic field detector (ghost buster) which prezents results through 7-segment display and buzzer
 2. Picture of the build:
-[tema3](https://user-images.githubusercontent.com/61291904/141182259-0c8ca6a4-1f4c-41df-8252-f8b6faef98b5.jpeg)
-3. Video proof of functionality: 
+![tema3](https://user-images.githubusercontent.com/61291904/141182646-4b69f6ae-aaf7-4239-af07-cf4df2c7cad6.jpeg)
+4. Video proof of functionality: 
 https://youtu.be/tAz1c2ye6L4
 
