@@ -27,9 +27,9 @@ bool prevReading = HIGH;
 int lastBounce = 0;
 int bounceDelay = 50;
 
-int startChangeStateTimer = 0;
-int blinkTimer = 0;
-int buzzerTimer = 0;
+long startChangeStateTimer = 0;
+long blinkTimer = 0;
+long buzzerTimer = 0;
 
 int changeStateOneDelay = 10000;
 int changeStateTwoDelay = 3000;
@@ -159,4 +159,5 @@ void loop() {
       
       startChangeStateTimer = millis();
   }
+  Serial.println(stateOne);
 }
