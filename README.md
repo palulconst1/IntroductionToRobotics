@@ -31,6 +31,13 @@ Video: https://youtu.be/awLXe3LO1Kg
 - electromagnetic field detector (ghost buster) which prezents results through 7-segment display and buzzer
 2. Picture of the build:
 ![tema32](https://user-images.githubusercontent.com/61291904/141182915-cb0b9c34-9edd-4fae-9652-5301e4fdcf45.jpeg)
-4. Video proof of functionality: 
+3. Video proof of functionality: 
 https://youtu.be/tAz1c2ye6L4
 
+## Homework 4
+1. Requirement:
+- 4 digit 7-segment display operated by joystick with help from a 74hc595 shift register
+2. Picture of the build:
+![WhatsApp Image 2021-11-17 at 03 27 53](https://user-images.githubusercontent.com/61291904/142093656-6617c9c6-ea08-4448-8f9b-b47e8902df72.jpeg)
+3. Video proof of functionality: 
+https://www.youtube.com/watch?v=U4cp_fydcU0
