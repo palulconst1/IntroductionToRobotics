@@ -1,3 +1,5 @@
+#include <EEPROM.h>
+
 const int dataPin = 12; // DS
 const int latchPin = 11; // STPC
 const int clockPin = 10; // SHCP
@@ -9,25 +11,32 @@ const int swPin = 2;
 const int joyMoveMin = 300;
 const int joyMoveMax = 700;
 bool joyMoved = LOW;
+
 bool joyLeft = LOW;
 bool joyRight = LOW;
 bool joyUP = LOW;
 bool joyDown = LOW;
+
+int xValue = 0;
+int yValue = 0;
+int swState = HIGH;
+
 int currentDigit = 0;
 bool digitSelected = LOW;
 int shownDigits[] = {
   0, 0, 0, 0
 };
+
 int shownNumber = 1;
 
 bool reading = HIGH;
 bool prevReading = HIGH;
-int lastBounce = 0;
+
+long lastBounce = 0;
 const int bounceDelay = 50;
 
-int xValue = 0;
-int yValue = 0;
-int swState = HIGH;
+long blinkTimer = 0;
+int blinkDelay = 200;
 
 const int segD1 = 7;
 const int segD2 = 6;
@@ -57,8 +66,13 @@ int digitArray[16] = {
   B10011100, // C
   B01111010, // D
   B10011110, // E
-  B10001110  // F
+  B00000001  // DP
 };
+
+bool inputROM = LOW;
+int writeDelay = 1000;
+long lastWrite = 0;
+
 void setup() {
   pinMode(dataPin, OUTPUT);
   pinMode(latchPin, OUTPUT);
@@ -71,13 +85,16 @@ void setup() {
     pinMode(xPin, INPUT);
     pinMode(yPin, INPUT);
     pinMode(swPin, INPUT_PULLUP); 
-    attachInterrupt(digitalPinToInterrupt(swPin), unBlinkDP, CHANGE);
   }
   Serial.begin(9600);
 }
 
 void loop() {
-  blinkDP();
+  if(!inputROM){
+    readNumber();
+    inputROM = HIGH;
+  }
+  
   xValue = analogRead(xPin);
   yValue = analogRead(yPin);
     
@@ -132,14 +149,32 @@ void loop() {
     }
   }
 
-  for(int i = 0; i < 4; i++) {
+  if(!digitSelected) {
+    if(millis() - blinkTimer > blinkDelay) {
+      showDigit(3 - currentDigit);
+      writeReg(digitArray[15]);
+      blinkTimer = millis();
+    }
+  } else {
+        showDigit(3 - currentDigit);
+        writeReg(digitArray[15]);
+  }
+
+  for(int i = 0; i < segmentsCount; i++) {
     shownNumber *= 10;
     shownNumber += shownDigits[i];
   }
-  //Serial.println(shownNumber);
   writeNumber(shownNumber);
+  //Serial.println(shownNumber);
   shownNumber = 1;
+
+  if(millis() - lastWrite > writeDelay){
+    saveNumber();
+    lastWrite = millis();
+  }
 }
+
+
 
 void writeNumber(int number) {
   int currentNumber = number;
@@ -168,10 +203,14 @@ void writeReg(int digit) {
   digitalWrite(latchPin, HIGH);
 }
 
-void blinkDP() {
-  Serial.println("blink");
+void saveNumber(){
+  for(int i = 0; i < segmentsCount; i++){
+    EEPROM.write(i, shownDigits[i]);
+  }
 }
 
-void unBlinkDP() {
-  Serial.println(currentDigit);
+void readNumber(){
+  for(int i = 0; i < segmentsCount; i++){
+    shownDigits[i] = EEPROM.read(i);
+  }
 }
