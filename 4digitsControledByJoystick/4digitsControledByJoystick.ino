@@ -22,7 +22,7 @@ int yValue = 0;
 int swState = HIGH;
 
 int currentDigit = 0;
-bool digitSelected = LOW;
+volatile bool digitSelected = LOW;
 int shownDigits[] = {
   0, 0, 0, 0
 };
@@ -85,6 +85,7 @@ void setup() {
     pinMode(xPin, INPUT);
     pinMode(yPin, INPUT);
     pinMode(swPin, INPUT_PULLUP); 
+    attachInterrupt(digitalPinToInterrupt(swPin), buttonPressed, CHANGE);
   }
   Serial.begin(9600);
 }
@@ -94,25 +95,27 @@ void loop() {
     readNumber();
     inputROM = HIGH;
   }
+
+  Serial.println(digitSelected);
   
   xValue = analogRead(xPin);
   yValue = analogRead(yPin);
     
-  reading = digitalRead(swPin);
-
-  if (reading != prevReading) {
-  lastBounce = millis();
-  }
-
-  if(millis() - lastBounce > bounceDelay) {
-    if(reading != swState) {
-      swState = reading;
-      if(reading == LOW) {
-        digitSelected = !digitSelected;
-  }
-    }
-  }
-  prevReading = reading;
+//  reading = digitalRead(swPin);
+//
+//  if (reading != prevReading) {
+//  lastBounce = millis();
+//  }
+//
+//  if(millis() - lastBounce > bounceDelay) {
+//    if(reading != swState) {
+//      swState = reading;
+//      if(reading == LOW) {
+//        digitSelected = !digitSelected;
+//  }
+//    }
+//  }
+//  prevReading = reading;
 
   if(xValue > joyMoveMin && xValue < joyMoveMax && yValue > joyMoveMin && yValue < joyMoveMax) {
     joyMoved = LOW;
@@ -149,15 +152,16 @@ void loop() {
     }
   }
 
-  if(!digitSelected) {
-    if(millis() - blinkTimer > blinkDelay) {
-      showDigit(3 - currentDigit);
-      writeReg(digitArray[15]);
-      blinkTimer = millis();
-    }
-  } else {
+  if(digitSelected)
+  {
+    showDigit(3 - currentDigit);
+    writeReg(digitArray[15]);
+  }else {
+      if(millis() - blinkTimer > blinkDelay) {
         showDigit(3 - currentDigit);
         writeReg(digitArray[15]);
+        blinkTimer = millis();
+      }
   }
 
   for(int i = 0; i < segmentsCount; i++) {
@@ -174,7 +178,13 @@ void loop() {
   }
 }
 
-
+void buttonPressed() {
+  Serial.println(112);
+  if(millis() - lastBounce > 500) {
+    digitSelected = !digitSelected;
+  }
+  lastBounce = millis();
+}
 
 void writeNumber(int number) {
   int currentNumber = number;
