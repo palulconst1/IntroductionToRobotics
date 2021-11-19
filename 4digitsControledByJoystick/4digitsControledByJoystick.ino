@@ -101,25 +101,8 @@ void loop() {
   xValue = analogRead(xPin);
   yValue = analogRead(yPin);
     
-//  reading = digitalRead(swPin);
-//
-//  if (reading != prevReading) {
-//  lastBounce = millis();
-//  }
-//
-//  if(millis() - lastBounce > bounceDelay) {
-//    if(reading != swState) {
-//      swState = reading;
-//      if(reading == LOW) {
-//        digitSelected = !digitSelected;
-//  }
-//    }
-//  }
-//  prevReading = reading;
-
   if(xValue > joyMoveMin && xValue < joyMoveMax && yValue > joyMoveMin && yValue < joyMoveMax) {
     joyMoved = LOW;
-    //Serial.println("neutral");
   }
   if(joyMoved == LOW) {
     if(xValue < joyMoveMin && !digitSelected) {
@@ -179,7 +162,6 @@ void loop() {
 }
 
 void buttonPressed() {
-  Serial.println(112);
   if(millis() - lastBounce > 500) {
     digitSelected = !digitSelected;
   }
@@ -192,8 +174,8 @@ void writeNumber(int number) {
   int displayDigit = 0;
   while (currentNumber > 0) {
     lastDigit = currentNumber % 10;
-    showDigit(displayDigit);
     writeReg(digitArray[lastDigit]);
+    showDigit(displayDigit);
     displayDigit ++;
     currentNumber /= 10;
     delay(5);
@@ -215,7 +197,7 @@ void writeReg(int digit) {
 
 void saveNumber(){
   for(int i = 0; i < segmentsCount; i++){
-    EEPROM.write(i, shownDigits[i]);
+    EEPROM.update(i, shownDigits[i]);
   }
 }
 
